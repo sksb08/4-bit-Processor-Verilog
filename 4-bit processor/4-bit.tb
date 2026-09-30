@@ -1,0 +1,74 @@
+module processor_tb;
+
+reg clk;
+reg reset;
+reg [3:0] A;
+reg [3:0] B;
+reg [1:0] opcode;
+
+wire [3:0] result;
+
+processor uut (
+    .clk(clk),
+    .reset(reset),
+    .A(A),
+    .B(B),
+    .opcode(opcode),
+    .result(result)
+);
+
+
+always #5 clk = ~clk;
+
+initial begin
+
+
+    $dumpfile("final_processor.vcd");
+    $dumpvars(0, processor_tb);
+
+    clk = 0;
+    reset = 1;
+    A = 0;
+    B = 0;
+    opcode = 0;
+
+
+    #10;
+    reset = 0;
+
+
+    A = 4'd5;
+    B = 4'd3;
+    opcode = 2'b00;
+
+    #10;
+    $display("ADD: %d + %d = %d", A, B, result);
+
+    A = 4'd5;
+    B = 4'd3;
+    opcode = 2'b01;
+
+    #10;
+    $display("SUB: %d - %d = %d", A, B, result);
+
+
+    A = 4'd5;
+    B = 4'd3;
+    opcode = 2'b10;
+
+    #10;
+    $display("AND: %d & %d = %d", A, B, result);
+
+
+    A = 4'd5;
+    B = 4'd3;
+    opcode = 2'b11;
+
+    #10;
+    $display("OR: %d | %d = %d", A, B, result);
+
+    $finish;
+
+end
+
+endmodule
